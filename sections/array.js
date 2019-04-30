@@ -774,7 +774,93 @@ const tfArray = {
       [arr[m], arr[i]] = [arr[i], arr[m]];
     }
     return arr;
-  }
+  },
+  /**
+   *
+   * @param arr
+   * @param values
+   * @return {*}
+   *
+   * Returns an array of elements that appear in both arrays.
+   * Use Array.filter() to remove values that are not part of values, determined using Array.includes().
+   */
+  similarity: (arr, values) => arr.filter(v => values.includes(v)),
+  /**
+   *
+   * @param arr
+   * @param n
+   * @return {number}
+   *
+   * Returns the lowest index at which value should be inserted into array in order to maintain its sort order.
+   * Check if the array is sorted in descending order (loosely).
+   * Use Array.findIndex() to find the appropriate index where the element should be inserted.
+   */
+  sortedIndex: (arr, n) => {
+    const isDescending = arr[0] > arr[arr.length - 1];
+    const index = arr.findIndex(el => (isDescending ? n >= el : n <= el));
+    return index === -1 ? arr.length : index;
+  },
+  /**
+   *
+   * @param arr
+   * @param n
+   * @param fn
+   * @return {number}
+   *
+   * Returns the lowest index at which value should be inserted into array in order to maintain its sort order,
+   * based on a provided iterator function.
+   * Check if the array is sorted in descending order (loosely).
+   * Use Array.findIndex() to find the appropriate index where the element should be inserted,
+   * based on the iterator function fn.
+   */
+  sortedIndexBy: (arr, n, fn) => {
+    const isDescending = fn(arr[0]) > fn(arr[arr.length - 1]);
+    const val = fn(n);
+    const index = arr.findIndex(el => (isDescending ? val >= fn(el) : val <= fn(el)));
+    return index === -1 ? arr.length : index;
+  },
+  /**
+   *
+   * @param arr
+   * @param n
+   * @return {number}
+   *
+   * Returns the highest index at which value should be inserted into array in order to maintain its sort order.
+   * Check if the array is sorted in descending order (loosely).
+   * Use Array.map() to map each element to an array with its index and value.
+   * Use Array.reverse() and Array.findIndex() to find the appropriate last index where the element should be inserted.
+   */
+  sortedLastIndex: (arr, n) => {
+    const isDescending = arr[0] > arr[arr.length - 1];
+    const index = arr
+      .map((val, i) => [i, val])
+      .reverse()
+      .findIndex(el => (isDescending ? n <= el[1] : n >= el[1]));
+    return index === -1 ? 0 : arr.length - index - 1;
+  },
+  /**
+   *
+   * @param arr
+   * @param n
+   * @param fn
+   * @return {number}
+   *
+   * Returns the highest index at which value should be inserted into array in order to maintain its sort order,
+   * based on a provided iterator function.
+   * Check if the array is sorted in descending order (loosely).
+   * Use Array.reverse() and Array.findIndex() to find the appropriate last index where the element should be inserted,
+   * based on the iterator function fn..
+   */
+  sortedLastIndexBy: (arr, n, fn) => {
+    const isDescending = fn(arr[0]) > fn(arr[arr.length - 1]);
+    const val = fn(n);
+    const index = arr
+      .map((val, i) => [i, fn(val)])
+      .reverse()
+      .findIndex(el => (isDescending ? val <= el[1] : val >= el[1]));
+    return index === -1 ? 0 : arr.length - index;
+  },
+  
 };
 
 module.exports = tfArray;
