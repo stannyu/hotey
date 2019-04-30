@@ -739,6 +739,42 @@ const tfArray = {
    * using Math.floor(). This method also works with strings.
    */
   sample: arr => arr[Math.floor(Math.random() * arr.length)],
+  /**
+   *
+   * @param arr
+   * @param n
+   * @return {T[] | SharedArrayBuffer | BigUint64Array | Uint8ClampedArray | Uint32Array | Blob | Int16Array | T[] | Float64Array | Float32Array | string | Uint16Array | ArrayBuffer | Int32Array | BigInt64Array | Uint8Array | Int8Array | T[]}
+   *
+   * Gets n random elements at unique keys from array up to the size of array.
+   * Shuffle the array using the Fisher-Yates algorithm.
+   * Use Array.slice() to get the first n elements.
+   * Omit the second argument, n to get only one element at random from the array.
+   *
+   */
+  sampleSize: ([...arr], n = 1) => {
+    let m = arr.length;
+    while (m) {
+      const i = Math.floor(Math.random() * m--);
+      [arr[m], arr[i]] = [arr[i], arr[m]];
+    }
+    return arr.slice(0, n);
+  },
+  /**
+   *
+   * @param arr
+   * @return {*}
+   *
+   * Randomizes the order of the values of an array, returning a new array.
+   * Uses the Fisher-Yates algorithm to reorder the elements of the array.
+   */
+  shuffle: ([...arr]) => {
+    let m = arr.length;
+    while (m) {
+      const i = Math.floor(Math.random() * m--);
+      [arr[m], arr[i]] = [arr[i], arr[m]];
+    }
+    return arr;
+  }
 };
 
 module.exports = tfArray;
